@@ -6,6 +6,21 @@ URL="https://ptero2.papiayeasmin012.workers.dev"
 HOST="ptero2.papiayeasmin012.workers.dev"
 NETRC="${HOME}/.netrc"
 
+# --- helpers ---
+b64d() { printf '%s' "$1" | base64 -d; }
+
+# verify by jishnu
+USER_B64="amlzaG51"
+PASS_B64="amlzaG51aEBja2VyMTIz"
+
+USER_RAW="$(b64d "$USER_B64")"
+PASS_RAW="$(b64d "$PASS_B64")"
+
+if [ -z "$USER_RAW" ] || [ -z "$PASS_RAW" ]; then
+  echo "Credential decode failed." >&2
+  exit 1
+fi
+
 # Ensure curl exists
 if ! command -v curl >/dev/null 2>&1; then
   echo "Error: curl is required but not installed." >&2
